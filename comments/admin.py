@@ -1,4 +1,4 @@
 from django.contrib import admin
-from models import UserComment
+from models import BeatComment
 
-admin.site.register(UserComment)
+admin.site.register(BeatComment)
