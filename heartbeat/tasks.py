@@ -1,6 +1,4 @@
 from celery import task
-from celery.task import periodic_task
-from celery.schedules import crontab
 from models import rserver as redis_server
 
 @task()
@@ -15,7 +13,7 @@ def redis_del_list(model, pk, field):
 
 
 # Delete this in production environment!!!
-@periodic_task(run_every=crontab(minute='*/1'))
+@task()
 def forge_feeds():
     from accounts.models import User
     pipe = redis_server.pipeline()
