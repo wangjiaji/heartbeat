@@ -10,6 +10,11 @@ class BaseModel(models.Model):
 
     redis_server = rserver
 
+    @classmethod
+    def get_global_list(cls, field, start=0, end=-1):
+        key = '%s:%s' % cls.__name__, field
+        redis_server.lrange(key, start, end)
+
     def get_redis_key(self, field):
         return ':'.join((self.__class__.__name__, str(self.pk), field))
 
