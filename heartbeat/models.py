@@ -12,8 +12,8 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_global_list(cls, field, start=0, end=-1):
-        key = '%s:%s' % cls.__name__, field
-        redis_server.lrange(key, start, end)
+        key = '%s:%s' % (cls.__name__, field)
+        return cls.redis_server.lrange(key, start, end)
 
     def get_redis_key(self, field):
         return ':'.join((self.__class__.__name__, str(self.pk), field))
@@ -21,7 +21,7 @@ class BaseModel(models.Model):
     @task()
     def del_redis_key(self, field):
         key = self.get_redis_key(field)
-        self.__class__redis_server.delete(key)
+        self.__class__.redis_server.delete(key)
 
     def get_redis_list(self, field, start=0, end=-1):
         key = self.get_redis_key(field)

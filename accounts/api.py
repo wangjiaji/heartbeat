@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from tastypie import fields
 from models import User
 from heartbeat.api import SessionModelResource, OwnerAuthorization, UserAuthentication
@@ -28,7 +29,7 @@ class UserResource(SessionModelResource):
         return super(UserResource, self).dehydrate(bundle)
 
     def prepend_urls(self):
-        return [url(r'^(?P<resource_name>%s)/(?P<username>[\w\d_.-]+/$' %
+        return [url(r'^(?P<resource_name>%s)/(?P<username>[\w\d_.-]+)/$' %
                     self._meta.resource_name,
                     self.wrap_view('dispatch_detail'),
                     name='api_dispatch_detail')]
