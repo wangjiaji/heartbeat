@@ -11,7 +11,6 @@ def redis_del_list(model, pk, field):
     key = '%s:%d:%s' % (model, pk, field)
     redis_server.delete(key)
 
-
 # Delete this in production environment!!!
 @task()
 def forge_feeds():
