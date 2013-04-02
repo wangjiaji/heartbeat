@@ -5,7 +5,7 @@ from models import Beat
 from places.models import Place
 from forms import BeatForm
 from places.forms import PlaceForm
-from heartbeat.http import HttpResponseForbidden, HttpResponseCreated, HttpResponseAccepted
+from heartbeat.http import HttpResponseForbidden, HttpResponseCreated, HttpResponseAccepted, HttpResponseOK
 
 @login_required
 @require_POST
@@ -48,3 +48,7 @@ def add_heart(request, beatid):
     else:
         beat.del_heart(request.user)
     return HttpResponseAccepted()
+
+@require_GET
+def get_hot_beats(request):
+    return HttpResponseOK(Beat.get_global_list('hot'))

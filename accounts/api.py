@@ -26,3 +26,9 @@ class UserResource(SessionModelResource):
         bundle.data['beats'] = bundle.obj.get_beats()
         bundle.data['heartbeats'] = bundle.obj.get_heartbeats()
         return super(UserResource, self).dehydrate(bundle)
+
+    def prepend_urls(self):
+        return [url(r'^(?P<resource_name>%s)/(?P<username>[\w\d_.-]+/$' %
+                    self._meta.resource_name,
+                    self.wrap_view('dispatch_detail'),
+                    name='api_dispatch_detail')]
