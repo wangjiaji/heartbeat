@@ -20,7 +20,7 @@ def update_comment_list(sender, instance, created, **kwargs):
     if created:
         if instance.beat.creator.notify_comment:
             note = Notification()
-            note.sender = instance.sender
+            note.sender = instance.creator
             note.recipient = instance.beat.creator
             note.note_type = 1
             note.content = instance.text[:20]
