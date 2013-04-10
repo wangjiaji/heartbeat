@@ -6,6 +6,7 @@ from beats.models import Beat
 from heartbeat.models import rserver as redis_server
 from heartbeat.tasks import redis_push_list
 from celery import task
+from notifications.models import Notification
 
 class BeatComment(models.Model):
     creator = models.ForeignKey(User)
