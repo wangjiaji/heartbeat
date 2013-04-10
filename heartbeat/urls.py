@@ -4,6 +4,8 @@ from accounts.api import UserResource
 from beats.api import BeatResource
 from places.api import PlaceResource
 from comments.api import BeatCommentResource
+from notifications.api import NotificationResource
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -14,6 +16,7 @@ v1_api.register(UserResource())
 v1_api.register(BeatResource())
 v1_api.register(PlaceResource())
 v1_api.register(BeatCommentResource())
+v1_api.register(NotificationResource())
 
 urlpatterns = patterns('',
     # Examples:
