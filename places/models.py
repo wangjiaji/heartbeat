@@ -3,7 +3,7 @@ from heartbeat.models import BaseModel
 import geohash as geo_hash
 
 class Place(BaseModel):
-    places_id = models.SlugField(max_length=64, unique=True)
+    places_id = models.SlugField(max_length=64, unique=True, primary_key=True)
     places_ref = models.SlugField(max_length=256, blank=True)
     lng = models.DecimalField(max_digits=10, decimal_places=7, db_index=True)
     lat = models.DecimalField(max_digits=10, decimal_places=7, db_index=True)
