@@ -23,5 +23,6 @@ def update_comment_list(sender, instance, created, **kwargs):
             note.recipient = instance.beat.creator
             note.note_type = 1
             note.content = instance.text[:20]
+            note.subject_id = instance.beat_id
             note.save()
         redis_push_list('Beat', instance.beat_id, 'comments', instance.id)

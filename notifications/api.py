@@ -1,8 +1,9 @@
 from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import Authentication
 from tastypie.resources import ModelResource
+from tastypie import fields
 from models import Notification
-
+from accounts.api import UserResource
 
 class NotificationAuthentication(Authentication):
     def is_authenticated(self, request, **kwargs):
@@ -12,7 +13,7 @@ class NotificationResource(ModelResource):
     sender = fields.ForeignKey(UserResource, 'sender', full=True)
 
     class Meta:
-        queryset = Notification.object.all()
+        queryset = Notification.objects.all()
         allowed_methods = ['get', 'patch', 'delete']
 
     def get_object_list(self, request):
