@@ -19,6 +19,7 @@ class User(AbstractUser, BaseModel):
 
     followed_users = models.ManyToManyField('self', related_name='followers', editable=False, blank=True, symmetrical=False, null=True)
     level_points = models.PositiveIntegerField(default=0, editable=False)
+    introduction = models.CharField(max_length=140, blank=True)
 
     # Settings
     notify_new_friend = models.BooleanField(default=True)

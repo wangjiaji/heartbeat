@@ -20,6 +20,9 @@ class UserResource(SessionModelResource):
         queryset = User.objects.all()
         excludes = ['password', 'is_active', 'is_staff', 'is_superuser', 'followed_users']
         allowed_methods = ['get', 'put', 'patch']
+        filtering = {
+            'username': ['startwith']
+        }
 
     def dehydrate(self, bundle):
         bundle.data['followers'] = bundle.obj.get_followers()
