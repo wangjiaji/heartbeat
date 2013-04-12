@@ -18,6 +18,15 @@ class BaseModel(models.Model):
     def get_redis_key(self, field):
         return ':'.join((self.__class__.__name__, str(self.pk), field))
 
+    def get_redis_set(self, field):
+        key = self.get_redis_key(field):
+        return self.__class__.redis_server.smembers(key)
+
+    @task()
+    def add_redis_set(self, field, value):
+        key = self.get_redis_key(field):
+        self.__class__.redis_server.sadd(value):
+        
     @task()
     def del_redis_key(self, field):
         key = self.get_redis_key(field)

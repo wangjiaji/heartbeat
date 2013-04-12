@@ -32,6 +32,7 @@ def upload_beat(request):
         beat.geohash = place.geohash
         beat.save()
         place.add_beat(beat.id)
+        request.user.add_place(placeid)
         request.user.distribute_feed(beat.id)
         resp = HttpResponseCreated()
         resp['Location'] = '/api/v1/beats/%d' % beat.id

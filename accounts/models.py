@@ -91,7 +91,12 @@ class User(AbstractUser, BaseModel):
         self.heartb.remove(user)
         self.update_redis_list.delay('heartbeats')
 
+    def get_places(self):
+        return self.get_redis_set('places')
 
+    def add_place(self, placeid):
+        self.add_redis_set('places', placeid)
+        
     def send_notification(self, recepient, title, text):
         pass
 

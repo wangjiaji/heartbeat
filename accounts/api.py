@@ -29,6 +29,7 @@ class UserResource(SessionModelResource):
         bundle.data['followed_users'] = bundle.obj.get_followed_users()
         bundle.data['beats'] = bundle.obj.get_beats()
         bundle.data['heartbeats'] = bundle.obj.get_heartbeats()
+        bundle.data['places'] = bundle.obj.get_places()
         return super(UserResource, self).dehydrate(bundle)
 
     def prepend_urls(self):
