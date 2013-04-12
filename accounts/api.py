@@ -21,7 +21,7 @@ class UserResource(SessionModelResource):
         excludes = ['password', 'is_active', 'is_staff', 'is_superuser', 'followed_users']
         allowed_methods = ['get', 'put', 'patch']
         filtering = {
-            'username': ('startwith', 'exact'),
+            'username': ['icontains', 'exact'],
         }
 
     def dehydrate(self, bundle):
