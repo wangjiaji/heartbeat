@@ -21,7 +21,7 @@ class UserResource(SessionModelResource):
         excludes = ['password', 'is_active', 'is_staff', 'is_superuser', 'followed_users']
         allowed_methods = ['get', 'put', 'patch']
         filtering = {
-            'username': ['startwith']
+            'username': ('startwith', 'exact'),
         }
 
     def dehydrate(self, bundle):
@@ -33,7 +33,7 @@ class UserResource(SessionModelResource):
         return super(UserResource, self).dehydrate(bundle)
 
     def prepend_urls(self):
-        return [url(r'^(?P<resource_name>%s)/(?P<username>[\w\d_.-]+)/$' %
+        return [url(r'^(?P<resource_name>%s)/search/(?P<username>[\w\d_.-]+)/$' %
                     self._meta.resource_name,
                     self.wrap_view('dispatch_detail'),
                     name='api_dispatch_detail')]

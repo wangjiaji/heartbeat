@@ -20,7 +20,7 @@ class BaseModel(models.Model):
 
     def get_redis_set(self, field):
         key = self.get_redis_key(field)
-        return self.__class__.redis_server.smembers(key)
+        return list(self.__class__.redis_server.smembers(key))
 
     @task()
     def add_redis_set(self, field, value):
