@@ -53,7 +53,7 @@ def add_friend(request, follow_id):
     if request.POST.get('action', 'add') != 'remove':
         request.user.follow(followed)
     else:
-        request.user.follow(followed)
+        request.user.unfollow(followed)
     return HttpResponseAccepted()
 
 @require_POST
