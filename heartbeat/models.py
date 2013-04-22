@@ -40,7 +40,7 @@ class BaseModel(models.Model):
     def update_redis_list(self, field):
         key = self.get_redis_key(field)
         manager = getattr(self, field)
-        pipe = self.__class__.redis_server.pipe()
+        pipe = self.__class__.redis_server.pipeline()
         pipe.delete(key)
         for record in manager.only(self._meta.pk.attname):
             pipe.lpush(record.id)
