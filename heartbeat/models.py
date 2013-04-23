@@ -25,7 +25,7 @@ class BaseModel(models.Model):
     @task()
     def add_redis_set(self, field, value):
         key = self.get_redis_key(field)
-        self.__class__.redis_server.sadd(value)
+        self.__class__.redis_server.sadd(key, value)
         
     @task()
     def del_redis_key(self, field):
