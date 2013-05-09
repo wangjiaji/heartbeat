@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404
-from models import Beat
+from models import Beat, Flag
 from places.models import Place
 from forms import BeatForm
 from places.forms import PlaceForm
@@ -53,3 +53,14 @@ def add_heart(request, beatid):
 @require_GET
 def get_hot_beats(request):
     return HttpResponseOK(Beat.get_global_list('hot'))
+
+@login_required
+def flag_beat(request, beatid):
+    try:
+        beat = Beat.objects.only('id').get(id=beatid)
+    except Beat.DoesNotExist:
+        return HttpResponseForbidden({'error': 'beat not exist'})
+
+    flag = Flag(creator=request.user, beat=beat)
+    flag.save()
+    return HttpResponseOK()

@@ -54,3 +54,8 @@ class Beat(BaseModel):
 def update_beat_list(sender, instance, created, **kwargs):
     if created:
         redis_push_list('User', instance.creator_id, 'beats', instance.id)
+
+class Flag(models.Model):
+    creator = models.ForeignKey(User, related_name='+')
+    beat = models.ForeignKey(Beat, related_name='+')
+    reason = models.CharField(max_length=20)
