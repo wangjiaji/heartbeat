@@ -178,8 +178,8 @@ CELERYD_LOG_FILE = '/home/ubuntu/heartbeat/celeryd.log'
 
 # Django-storages for S3
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAJNHUSSYZM3YPILNA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'hbbeatimages'
