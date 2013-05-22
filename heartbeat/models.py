@@ -2,7 +2,7 @@ from django.db import models
 from celery.contrib.methods import task
 import redis
 
-rserver = redis.Redis(host='192.168.18.67', db=1)
+rserver = redis.Redis(host='localhost', db=1)
 
 class BaseModel(models.Model):
     class Meta:
