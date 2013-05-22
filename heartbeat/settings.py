@@ -52,12 +52,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = '/home/jiaji/workspace/media/'
+MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = 'http://192.168.18.66/media/'
+MEDIA_URL = ''
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -169,12 +169,12 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # Django Redis Session
 SESSION_ENGINE = 'redis_sessions.session'
-SESSION_REDIS_HOST = '192.168.18.67'
+SESSION_REDIS_HOST = 'localhost'
 SESSION_REDIS_DB = 3
 
 # Djcelery
-BROKER_URL = 'redis://192.168.18.67/5'
-CELERYD_LOG_FILE = '/home/jiaji/workspace/heartbeat/celeryd.log'
+BROKER_URL = 'redis://localhost/5'
+CELERYD_LOG_FILE = '/home/ubuntu/heartbeat/celeryd.log'
 
 # Django-storages for S3
 
