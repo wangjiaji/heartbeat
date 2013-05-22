@@ -1,15 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.core.files.storage import FileSystemStorage
 from heartbeat.models import BaseModel
-
-avatar_fs = FileSystemStorage()
 
 class User(AbstractUser, BaseModel):
     # Profile
     display_name = models.CharField(max_length=64, blank=True)
-    avatar = models.ImageField(upload_to='avatars', storage=avatar_fs, blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars', blank=True, null=True)
 
     country = models.CharField(max_length=3, blank=True)
     state = models.CharField(max_length=20, blank=True)

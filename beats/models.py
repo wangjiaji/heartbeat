@@ -1,13 +1,10 @@
 from django.db import models
 from accounts.models import User
 from places.models import Place
-from django.core.files.storage import FileSystemStorage
 from heartbeat.models import BaseModel
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from heartbeat.tasks import redis_push_list
-
-beat_fs = FileSystemStorage()
 
 class Beat(BaseModel):
     creator = models.ForeignKey(User, related_name='beats') # User who created this beat
@@ -18,8 +15,8 @@ class Beat(BaseModel):
     upload_time = models.DateTimeField(auto_now_add=True, editable=False, db_index=True)
     hearts = models.ManyToManyField(User, related_name='heartbeats', blank=True, editable=False)
     place = models.ForeignKey(Place)
-    thumbnail = models.ImageField(upload_to='beat_thumb/%Y/%m/%d', storage=beat_fs)
-    image = models.ImageField(upload_to='beat/%Y/%m/%d', storage=beat_fs)
+    thumbnail = models.ImageField(upload_to='beat_thumb')
+    image = models.ImageField(upload_to='beat')
     geohash = models.BigIntegerField(blank=True, db_index=True)
 
     def __unicode__(self):

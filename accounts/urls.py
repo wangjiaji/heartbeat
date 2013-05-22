@@ -8,3 +8,7 @@ urlpatterns = patterns('accounts.views',
     url(r'^(\d+)/follow/$', 'add_friend'),
     url(r'^upload_avatar', 'upload_avatar'),
 )
+
+urlpatterns += patterns('',
+    url(r'^password_reset/', 'django.contrib.auth.views.password_reset'),
+)

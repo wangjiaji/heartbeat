@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -48,6 +48,7 @@ class LoginForm(AuthenticationForm):
                 cleaned_data['username'] = user.username
         return super(LoginForm, self).clean()
 
+# Not used
 class UserPasswordResetForm(PasswordResetForm):
     username = forms.CharField(max_length=64)
 

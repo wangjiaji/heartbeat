@@ -1,4 +1,5 @@
-from forms import SignupForm, LoginForm, UserPasswordResetForm
+from forms import SignupForm, LoginForm
+from django.contrib.auth.views import password_reset
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.http import HttpResponse
@@ -31,14 +32,14 @@ def login(request):
     return HttpResponseForbidden(form.errors)
 
 @require_POST
-@login_required
 def reset_password(request):
-    form = UserPasswordResetForm(request.POST)
-    if form.is_valid():
-        form.save()
-        return HttpResponseOK()
-    return HttpResponseForbidden(form.errors)
+    return password_reset(request,
+                          post_reset_redirect=reverse('password_reset_done'),
+                          from_email='pwreset@heartbeat.com')
 
+def password_reset_done(request):
+    return HttpResponseOK()
+    
 def logout(request):
     auth_logout(request)
     return HttpResponseOK()
@@ -64,7 +65,7 @@ def upload_avatar(request):
     if avatar:
         if user.avatar:
             user.avatar.delete(False)
-        user.avatarn = avatar
+        user.avatar = avatar
         user.save()
         resp = HttpResponseCreated()
         resp['Location'] = user.avatar.url

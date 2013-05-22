@@ -18,8 +18,8 @@ DATABASES = {
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
-        'HOST': '192.168.18.66',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '6432',                      # Set to empty string for default.
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'places',
     'comments',
     'notifications',
+    'storages',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -174,3 +175,13 @@ SESSION_REDIS_DB = 3
 # Djcelery
 BROKER_URL = 'redis://192.168.18.67/5'
 CELERYD_LOG_FILE = '/home/jiaji/workspace/heartbeat/celeryd.log'
+
+# Django-storages for S3
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3.S3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAJNHUSSYZM3YPILNA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'hbbeatimages'
+from S3 import CallingFormat
+AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
