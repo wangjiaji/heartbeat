@@ -49,11 +49,11 @@ class LoginForm(AuthenticationForm):
         return super(LoginForm, self).clean()
 
 # Not used
-class UserPasswordResetForm(PasswordResetForm):
-    username = forms.CharField(max_length=64)
+# class UserPasswordResetForm(PasswordResetForm):
+#     username = forms.CharField(max_length=64)
 
-    def clean(self):
-        uname = self.cleaned_data['username']
-        if not uname in [user.username for user in self.users_cache]:
-            raise forms.ValidationError('The username and email address do not match')
-        return super(UserPasswordResetForm, self).clean()
+#     def clean(self):
+#         uname = self.cleaned_data['username']
+#         if not uname in [user.username for user in self.users_cache]:
+#             raise forms.ValidationError('The username and email address do not match')
+#         return super(UserPasswordResetForm, self).clean()
