@@ -1,4 +1,5 @@
 from forms import SignupForm, LoginForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import password_reset
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -29,6 +30,15 @@ def login(request):
         user = form.get_user()
         auth_login(request, user)
         return HttpResponseOK(get_api_resource(request, UserResource, user), need_dump=False)
+    return HttpResponseForbidden(form.errors)
+
+@login_required
+@require_POST
+def change_password(request):
+    form = PasswordChangeForm(request.user, request.POST)
+    if form.is_valid():
+        form.save()
+        return HttpResponseOK()
     return HttpResponseForbidden(form.errors)
 
 @require_POST
