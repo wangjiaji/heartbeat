@@ -19,5 +19,5 @@ def forge_feeds():
 
     for user in User.objects.only('id').prefetch_related('beats'):
         for beat in user.beats.all().only('id'):
-            pipe.lpush('User:7:feeds', '%d:0:%d' % (user.id, beat.id))
+            pipe.lpush('User:1:feeds', '%d:0:%d' % (user.id, beat.id))
     pipe.execute()
