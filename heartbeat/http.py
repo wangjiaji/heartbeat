@@ -19,7 +19,7 @@ class HttpResponseAccepted(HttpResponseJSON):
     status_code = 202
 
 class HttpResponseForbidden(HttpResponseJSON):
-    status = 403
+    status_code = 403
 
 class HttpResponseNoContent(HttpResponseJSON):
     status_code = 204
