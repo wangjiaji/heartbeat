@@ -11,7 +11,8 @@ class CommentAuthorization(OwnerAuthorization):
             return object_list.filter(Q(creator=request.user) |
                                       Q(beat__creator=request.user))
         else:
-            return super(CommentAuthorization, self).apply_limits(request, object_list)
+            return object_list
+            #            return super(CommentAuthorization, self).apply_limits(request, object_list)
 
 class BeatCommentResource(SessionModelResource):
     creator = fields.ForeignKey(UserResource, 'creator', full=True)
