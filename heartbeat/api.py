@@ -3,6 +3,7 @@ from tastypie.authentication import Authentication
 from tastypie.validation import CleanedDataFormValidation
 from tastypie.resources import ModelResource
 
+
 class UserAuthentication(Authentication):
     def is_authenticated(self, request, **kwargs):
         if request.method == 'GET':
