@@ -1,4 +1,4 @@
-from tastypie.authorization import DjangoAuthorization
+from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
 from tastypie.validation import CleanedDataFormValidation
 from tastypie.resources import ModelResource
@@ -9,7 +9,7 @@ class UserAuthentication(Authentication):
             return True
         return request.user.is_authenticated()
 
-class OwnerAuthorization(DjangoAuthorization):
+class OwnerAuthorization(Authorization):
     limited_methods = ('PUT', 'PATCH', 'DELETE')
 
     def is_authorized(self, request, obj=None):
