@@ -52,7 +52,8 @@ def add_heart(request, beatid):
 
 @require_GET
 def get_hot_beats(request):
-    return HttpResponseOK(Beat.get_global_list('hot'))
+    return [x[0] for x in Beat.objects.only('id').values_list('id')]
+    #    return HttpResponseOK(Beat.get_global_list('hot'))
 
 @login_required
 def flag_beat(request, beatid):

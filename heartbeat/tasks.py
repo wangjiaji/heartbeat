@@ -11,6 +11,21 @@ def redis_del_list(model, pk, field):
     key = '%s:%d:%s' % (model, pk, field)
     redis_server.delete(key)
 
+@task()
+def redis_update_hot_beat():
+    key = hot_beats_key()
+    pipe = redis.pipeline()
+    pipe.delete(key)
+    qs = Beat.objects.filter(upload_time__gt=now()-timedelta(days=7)).annotate(nhearts=Count('hearts')).order_by('nhearts').select_related('place')
+    for beat in qs:
+        pipe.lpush(key, beat.id)
+    for beat in qs:
+        ckey = hot_beats_by_country_key(beat.place.country)
+        pipe.lpush(ckey, beat.id)           
+    pipe.execute()
+    hot_list_etag(set_id=True)
+
+
 # Delete this in production environment!!!
 @task()
 def forge_feeds():
