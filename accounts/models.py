@@ -13,7 +13,7 @@ class User(AbstractUser, BaseModel):
     display_name = models.CharField(max_length=64, blank=True)
     avatar = models.ImageField(upload_to='avatars', blank=True, null=True)
 
-    gender = models.CharField(max_length=1, choices=_GENER_CHOICES)
+    gender = models.CharField(max_length=1, choices=_GENER_CHOICES, null=True)
     birthdate = models.DateField(null=True)
     country = models.CharField(max_length=3, blank=True)
     state = models.CharField(max_length=20, blank=True)
