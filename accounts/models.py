@@ -4,10 +4,17 @@ from django.core.exceptions import ValidationError
 from heartbeat.models import BaseModel
 
 class User(AbstractUser, BaseModel):
+    _GENER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+    
     # Profile
     display_name = models.CharField(max_length=64, blank=True)
     avatar = models.ImageField(upload_to='avatars', blank=True, null=True)
 
+    gender = models.CharField(max_length=1, choices=_GENER_CHOICES)
+    birthdate = models.DateField(null=True)
     country = models.CharField(max_length=3, blank=True)
     state = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
