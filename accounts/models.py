@@ -80,7 +80,7 @@ class User(AbstractUser, BaseModel):
 
     def distribute_feed(self, beatid, feed_type=0):
         followers_pks = self.get_followers()
-        followers_pks.append(self.id)
+        followers_pks.append(str(self.id))
         keys = [':'.join((self.__class__.__name__, pk, 'feeds')) for pk in followers_pks]
         feed = ':'.join((str(self.id), str(feed_type), str(beatid)))
         self.distribute_redis_value.delay(keys, feed)
