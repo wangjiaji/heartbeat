@@ -53,7 +53,7 @@ class BaseModel(models.Model):
 
     @task()
     def distribute_redis_value(self, keys, value):
-        pipe = self.__class__.redis_server.pipe()
+        pipe = self.__class__.redis_server.pipeline()
         for key in keys:
             pipe.lpush(key, value)
         pipe.execute()
