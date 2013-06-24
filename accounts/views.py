@@ -86,6 +86,8 @@ def upload_avatar(request):
 @require_GET
 @login_required
 def get_feeds(request):
-    feeds = request.user.get_feeds()
+    start = request.GET.get('start', 0)
+    end = request.GET.get('end', -1)
+    feeds = request.user.get_feeds(start, end)
     return HttpResponseOK(feeds)
 

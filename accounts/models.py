@@ -74,13 +74,12 @@ class User(AbstractUser, BaseModel):
         self.update_redis_list.delay('followed_users')
         user.update_redis_list.delay('followers')
 
-    def get_feeds(self):
-        feeds = self.get_redis_list('feeds')
-        self.del_redis_key('feeds')
+    def get_feeds(self, **kwargs):
+        feeds = self.get_redis_list('feeds', kwargs)
         return feeds
 
     def distribute_feed(self, beatid, feed_type=0):
-        followers_pks = self.get_followers()
+        followers_pks = self.get_followers().append(self.id)
         keys = [':'.join((self.__class__.__name__, pk, 'feeds')) for pk in followers_pks]
         feed = ':'.join((str(self.id), str(feed_type), str(beatid)))
         self.distribute_redis_value.delay(keys, feed)
