@@ -74,8 +74,8 @@ class User(AbstractUser, BaseModel):
         self.update_redis_list.delay('followed_users')
         user.update_redis_list.delay('followers')
 
-    def get_feeds(self, **kwargs):
-        feeds = self.get_redis_list('feeds', kwargs)
+    def get_feeds(self, *args, **kwargs):
+        feeds = self.get_redis_list('feeds', *args, **kwargs)
         return feeds
 
     def distribute_feed(self, beatid, feed_type=0):
