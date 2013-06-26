@@ -86,7 +86,7 @@ class User(AbstractUser, BaseModel):
 
     def add_heart(self, beat):
         self.add_redis_set('heartbeats', beat.id)
-        self.distribute_feed.(beat.id, 1)
+        self.distribute_feed(beat.id, 1)
 
     def del_heart(self, beat):
         self.remove_redis_set.delay('heartbeats', beat.id)
