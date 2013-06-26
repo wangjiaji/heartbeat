@@ -22,7 +22,7 @@ class Place(BaseModel):
         super(Place, self).save(*args, **kwargs)
 
     def add_beat(self, beatid):
-        self.push_redis_list('beats', beatid)
+        self.add_redis_set('beats', beatid)
 
     def get_beats(self):
-        return self.get_redis_list('beats')
+        return list(self.get_redis_set('beats'))
