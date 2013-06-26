@@ -92,7 +92,7 @@ class User(AbstractUser, BaseModel):
         self.remove_redis_set.delay('heartbeats', beat.id)
 
     def get_places(self):
-        return self.get_redis_set('places')
+        return list(self.get_redis_set('places'))
 
     def add_place(self, placeid):
         self.add_redis_set('places', placeid)
