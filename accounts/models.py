@@ -49,16 +49,16 @@ class User(AbstractUser, BaseModel):
                 raise ValidationError('Email address already used')
 
     def get_followed_users(self):
-        return list(self.get_redis_list('followed_users'))
+        return list(self.get_redis_set('followed_users'))
 
     def get_followers(self):
-        return list(self.get_redis_list('followers'))
+        return list(self.get_redis_set('followers'))
 
     def get_beats(self):
         return self.get_redis_list('beats')
 
     def get_heartbeats(self):
-        return self.get_redis_set('heartbeats')
+        return list(self.get_redis_set('heartbeats'))
 
     def is_following(self, user):
         return user.is_member('followers', self.id)
