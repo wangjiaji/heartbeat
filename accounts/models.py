@@ -85,13 +85,11 @@ class User(AbstractUser, BaseModel):
         self.distribute_redis_value.delay(keys, feed)
 
     def add_heart(self, beat):
-        self.heartbeats.add(beat)
-        self.push_redis_list('heartbeats', beat.id)
-        self.distribute_feed(beat.id, 1)
+        self.add_redis_set('heartbeats', beat.id)
+        self.distribute_feed.(beat.id, 1)
 
     def del_heart(self, beat):
-        self.heartb.remove(user)
-        self.update_redis_list.delay('heartbeats')
+        self.remove_redis_set.delay('heartbeats', beat.id)
 
     def get_places(self):
         return self.get_redis_set('places')

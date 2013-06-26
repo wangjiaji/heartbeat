@@ -34,12 +34,15 @@ class Beat(BaseModel):
 
     def add_heart(self, user):
         self.hearts.add(user)
-        self.push_redis_list('hearts', user.id)
+        self.add_redis_set('hearts', user.id)
         user.distribute_feed(self.id, 1)
+
+    def get_hearts(self):
+        return list(self.get_redis_set('hearts'))
 
     def del_heart(self, user):
         self.hearts.remove(user)
-        self.update_redis_list('hearts')
+        self.remove_redis_set('hearts', user.id)
 
     def update_tags(self):
         from re import findall

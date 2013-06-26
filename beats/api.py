@@ -33,8 +33,7 @@ class BeatResource(SessionModelResource):
     def dehydrate(self, bundle):
         # comment_key = beat_comments_key(bundle.obj.id)
         # bundle.data['comments'] = redis.lrange(comment_key, 0, -1)
-        heart_key = beat_hearts_key(bundle.obj.id)
-        bundle.data['hearts'] = redis.lrange(heart_key, 0, -1)
+        bundle.data['hearts'] = bundle.obj.get_hearts()
         return super(BeatResource, self).dehydrate(bundle)
 
     # def obj_create(self, bundle, request=None, **kwargs):
