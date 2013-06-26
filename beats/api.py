@@ -41,10 +41,10 @@ class BeatResource(SessionModelResource):
     #     bundle = super(BeatResource, self).obj_create(bundle, request, **kwargs)
     #     return bundle
 
-    def prepend_urls(self):
-        return [url(r'^(?P<resource_name>%s)/(?P<id>\d+)/flag/$' %
-                    self._meta.resource_name,
-                    self.wrap_view('
+    # def prepend_urls(self):
+    #     return [url(r'^(?P<resource_name>%s)/(?P<id>\d+)/flag/$' %
+    #                 self._meta.resource_name,
+    #                 self.wrap_view('
 
     def build_filters(self, filters=None):
         if filters is None:
