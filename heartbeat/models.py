@@ -26,7 +26,16 @@ class BaseModel(models.Model):
     def add_redis_set(self, field, value):
         key = self.get_redis_key(field)
         self.__class__.redis_server.sadd(key, value)
-        
+
+    @task()
+    def remove_redis_set(self, field, value):
+        key = self.get_redis_key(field)
+        self.__class__.redis_server.srem(key, value)
+
+    def is_member(self, field, value):
+        key = self.get_redis_key(field)
+        return self.__class__.redis_server.sismember(key, value)
+
     @task()
     def del_redis_key(self, field):
         key = self.get_redis_key(field)
@@ -57,3 +66,8 @@ class BaseModel(models.Model):
         for key in keys:
             pipe.lpush(key, value)
         pipe.execute()
+
+    @classmethod
+    def get_global_set(cls, field):
+        key = '%s:%s' % (cls.__name__, field)
+        return cls.redis_server.smembers(key)

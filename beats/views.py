@@ -31,6 +31,7 @@ def upload_beat(request):
         beat = beat_form.save(commit=False)
         beat.geohash = place.geohash
         beat.save()
+        beat.update_tags()
         place.add_beat(beat.id)
         request.user.add_place(placeid)
         request.user.distribute_feed(beat.id)
@@ -46,6 +47,7 @@ def add_heart(request, beatid):
     beat = get_object_or_404(Beat, pk=beatid)
     if request.POST.get('action', 'add') != 'remove':
         beat.add_heart(request.user)
+        request.user.add_heart(beat)
     else:
         beat.del_heart(request.user)
     return HttpResponseAccepted()
@@ -66,3 +68,9 @@ def flag_beat(request, beatid):
     flag = Flag(creator=request.user, beat=beat)
     flag.save()
     return HttpResponseOK()
+
+def search_beat_by_keyword(request, keyword):
+    start = request.GET.get('start', 0)
+    end = request.GET.get('end', -1)
+    results = self.__class__.get_global_list(keyword, start, end)
+    return HttpResponseOK(results)

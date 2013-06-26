@@ -49,11 +49,10 @@ class User(AbstractUser, BaseModel):
                 raise ValidationError('Email address already used')
 
     def get_followed_users(self):
-           return self.get_redis_list('followed_users')
-
+        return list(self.get_redis_list('followed_users'))
 
     def get_followers(self):
-        return self.get_redis_list('followers')
+        return list(self.get_redis_list('followers'))
 
     def get_beats(self):
         return self.get_redis_list('beats')
@@ -62,17 +61,17 @@ class User(AbstractUser, BaseModel):
         return self.get_redis_list('heartbeats')
 
     def is_following(self, user):
-        return user.id in self.get_followed_users()
+        return user.is_member('followers', self.id)
 
     def follow(self, user):
         self.followed_users.add(user)
-        self.push_redis_list('followed_users', user.id)
-        user.push_redis_list('followers', self.id)
+        self.add_redis_set('followed_users', user.id)
+        user.add_redis_set('followers', self.id)
 
     def unfollow(self, user):
         self.followed_users.remove(user)
-        self.update_redis_list.delay('followed_users')
-        user.update_redis_list.delay('followers')
+        self.remove_redis_set.delay('followed_users', user.id)
+        user.remove_redis_set.delay('followers', self.id)
 
     def get_feeds(self, *args, **kwargs):
         feeds = self.get_redis_list('feeds', *args, **kwargs)
@@ -84,7 +83,6 @@ class User(AbstractUser, BaseModel):
         keys = [':'.join((self.__class__.__name__, pk, 'feeds')) for pk in followers_pks]
         feed = ':'.join((str(self.id), str(feed_type), str(beatid)))
         self.distribute_redis_value.delay(keys, feed)
-
 
     def add_heart(self, beat):
         self.heartbeats.add(beat)

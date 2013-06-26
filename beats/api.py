@@ -30,16 +30,21 @@ class BeatResource(SessionModelResource):
             'geohash': ['exact'],
         }
 
-    # def dehydrate(self, bundle):
-    #     comment_key = beat_comments_key(bundle.obj.id)
-    #     bundle.data['comments'] = redis.lrange(comment_key, 0, -1)
-    #     heart_key = beat_hearts_key(bundle.obj.id)
-    #     bundle.data['hearts'] = redis.lrange(heart_key, 0, -1)
-    #     return super(BeatResource, self).dehydrate(bundle)
+    def dehydrate(self, bundle):
+        # comment_key = beat_comments_key(bundle.obj.id)
+        # bundle.data['comments'] = redis.lrange(comment_key, 0, -1)
+        heart_key = beat_hearts_key(bundle.obj.id)
+        bundle.data['hearts'] = redis.lrange(heart_key, 0, -1)
+        return super(BeatResource, self).dehydrate(bundle)
 
     # def obj_create(self, bundle, request=None, **kwargs):
     #     bundle = super(BeatResource, self).obj_create(bundle, request, **kwargs)
     #     return bundle
+
+    def prepend_urls(self):
+        return [url(r'^(?P<resource_name>%s)/(?P<id>\d+)/flag/$' %
+                    self._meta.resource_name,
+                    self.wrap_view('
 
     def build_filters(self, filters=None):
         if filters is None:
