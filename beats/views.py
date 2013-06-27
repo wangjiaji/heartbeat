@@ -74,5 +74,5 @@ def flag_beat(request, beatid):
 def search_beat_by_keyword(request, keyword):
     start = request.GET.get('start', 0)
     end = request.GET.get('end', -1)
-    results = self.__class__.get_global_list(keyword, start, end)
+    results = Beat.get_global_list(keyword, start, end)
     return HttpResponseOK(results)
