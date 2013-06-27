@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from celery.contrib.methods import task
 from heartbeat.models import BaseModel
 
 class User(AbstractUser, BaseModel):
@@ -126,5 +127,3 @@ class User(AbstractUser, BaseModel):
     @models.permalink
     def get_absolute_url(self):
         return ('accounts.views.details', [str(self.id)])
-
-
