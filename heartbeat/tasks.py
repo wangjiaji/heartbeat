@@ -7,9 +7,14 @@ def redis_push_list(model, pk, field, data):
     redis_server.lpush(key, data)
 
 @task()
-def redis_del_list(model, pk, field):
+def redis_del_list(model, pk, field, data):
     key = '%s:%d:%s' % (model, pk, field)
-    redis_server.delete(key)
+    redis_server.lrem(key, data)
+
+@task()
+def redis_del_set(model, pk, field, data):
+    key = '%s:%d:%s' % (model, pk, field)
+    redis_server.srem(key, data)
 
 @task()
 def redis_update_hot_beat():

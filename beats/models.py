@@ -2,9 +2,9 @@ from django.db import models
 from accounts.models import User
 from places.models import Place
 from heartbeat.models import BaseModel
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from heartbeat.tasks import redis_push_list
+from heartbeat.tasks import redis_push_list, redis_del_list, redis_del_set
 
 class Beat(BaseModel):
     creator = models.ForeignKey(User, related_name='beats') # User who created this beat
@@ -55,6 +55,12 @@ def update_beat_list(sender, instance, created, **kwargs):
     if created:
         redis_push_list('User', instance.creator_id, 'beats', instance.id)
 
+@receiver(post_delete, sender=Beat)
+def del_beat_list(sender, instance, using, **kwargs):
+    if not Beat.objects.filter(creator=instance.creator_id, place=instance.place_id):
+        redis_del_set('User', instance.creator_id, 'places', instance.place_id)
+    redis_del_list('User', instance.creator_id, 'beats', instance.id)
+        
 class Flag(models.Model):
     creator = models.ForeignKey(User, related_name='+')
     beat = models.ForeignKey(Beat, related_name='+')

@@ -66,12 +66,14 @@ class User(AbstractUser, BaseModel):
     def follow(self, user):
         self.followed_users.add(user)
         self.add_redis_set('followed_users', user.id)
+        self.add_feeds_from_user.delay(user)
         user.add_redis_set('followers', self.id)
 
     def unfollow(self, user):
         self.followed_users.remove(user)
         self.remove_redis_set.delay('followed_users', user.id)
         user.remove_redis_set.delay('followers', self.id)
+        user.del_feeds_from_user(user)
 
     def get_feeds(self, *args, **kwargs):
         feeds = self.get_redis_list('feeds', *args, **kwargs)
@@ -96,6 +98,26 @@ class User(AbstractUser, BaseModel):
 
     def add_place(self, placeid):
         self.add_redis_set('places', placeid)
+
+    @task()
+    def add_feeds_from_user(self, user):
+        user_feeds = user.get_feeds(start=0, end=5)
+        pipe = self.__class__.redis_server.pipeline()
+        for feed in user_feeds:
+            pipe.lpush(feed)
+        pipe.execute()
+
+    @task()
+    def del_feeds_from_user(self, user):
+        feeds = self.get_feeds()
+        key = self.get_redis_key('feeds')
+        pipe = self.__class__.redis_server.pipeline()
+        for feed in feeds:
+            uid = int(feed.split(':')[1])
+            if uid = user.id:
+                pipe.lrem(key, feed)
+        pipe.execute()
+
         
     def send_notification(self, recepient, title, text):
         pass
