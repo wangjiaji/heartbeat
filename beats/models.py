@@ -47,7 +47,7 @@ class Beat(BaseModel):
     def update_tags(self):
         from re import findall
         tags = set(findall(r'(?<=#)\w+\b', self.description))
-        keys = ['tag:%s' % tag for tag in tags]
+        keys = ['Beat:tag:%s' % tag for tag in tags]
         self.distribute_redis_value.delay(keys, self.id)
 
 @receiver(post_save, sender=Beat)
