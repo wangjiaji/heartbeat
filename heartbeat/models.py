@@ -1,5 +1,5 @@
 from django.db import models
-from celery import task
+from celery.contrib.methods import task
 import redis
 
 rserver = redis.Redis(host='localhost', db=1)

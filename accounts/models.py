@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from celery import task
+from celery.contrib.methods import task
 from heartbeat.models import BaseModel
 
 class User(AbstractUser, BaseModel):
