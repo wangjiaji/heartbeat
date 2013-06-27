@@ -58,6 +58,7 @@ def get_hot_beats(request):
     return HttpResponseOK(data)
     #    return HttpResponseOK(Beat.get_global_list('hot'))
 
+@require_POST
 @login_required
 def flag_beat(request, beatid):
     try:
@@ -69,6 +70,7 @@ def flag_beat(request, beatid):
     flag.save()
     return HttpResponseOK()
 
+@require_GET
 def search_beat_by_keyword(request, keyword):
     start = request.GET.get('start', 0)
     end = request.GET.get('end', -1)

@@ -114,7 +114,7 @@ class User(AbstractUser, BaseModel):
         pipe = self.__class__.redis_server.pipeline()
         for feed in feeds:
             uid = int(feed.split(':')[1])
-            if uid = user.id:
+            if uid == user.id:
                 pipe.lrem(key, feed)
         pipe.execute()
 
