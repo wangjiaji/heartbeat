@@ -57,7 +57,7 @@ def logout(request):
 @login_required
 @require_POST
 def add_friend(request, follow_id):
-    if follow_id == request.user.id:
+    if int(follow_id) == request.user.id:
         return HttpResponseForbidden('Cannot add yourself')
     followed = get_object_or_404(User, pk=follow_id)
 
