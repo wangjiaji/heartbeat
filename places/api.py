@@ -1,5 +1,6 @@
 from heartbeat.api import SessionModelResource, UserAuthentication, OwnerAuthorization
 from models import Place
+from django.conf.urls import url
 from tastypie.exceptions import BadRequest
 
 class PlaceResource(SessionModelResource):  
