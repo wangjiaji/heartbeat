@@ -103,9 +103,10 @@ class User(AbstractUser, BaseModel):
     @task()
     def add_feeds_from_user(self, user):
         user_feeds = user.get_feeds(start=0, end=5)
+        key = self.get_redis_key('feeds')
         pipe = self.__class__.redis_server.pipeline()
         for feed in user_feeds:
-            pipe.lpush(feed)
+            pipe.lpush(key, feed)
         pipe.execute()
 
     @task()
