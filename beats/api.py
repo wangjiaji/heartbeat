@@ -64,6 +64,7 @@ class BeatResource(SessionModelResource):
 
         orm_filters.update({'range': ran})
         return orm_filters
+        
 
     def apply_filters(self, request, applicable_filters):
         r = applicable_filters.pop('range')
