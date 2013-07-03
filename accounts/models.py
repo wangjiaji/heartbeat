@@ -55,7 +55,7 @@ class User(AbstractUser, BaseModel):
     def get_followers(self):
         return list(self.get_redis_set('followers'))
 
-    def get_beats(self, **kwargs):
+    def get_beats(self, *args, **kwargs):
         return self.get_redis_list('beats', *args, **kwargs)
 
     def get_heartbeats(self):
