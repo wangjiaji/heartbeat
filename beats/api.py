@@ -3,7 +3,6 @@ from heartbeat.api import SessionModelResource, UserAuthentication, OwnerAuthori
 from tastypie.validation import CleanedDataFormValidation
 from tastypie import fields
 from tastypie.constants import ALL
-from places.api import PlaceResource
 from accounts.api import UserResource
 from forms import BeatForm
 from models import Beat
@@ -13,7 +12,7 @@ class BeatResource(SessionModelResource):
     validation = CleanedDataFormValidation(form_class=BeatForm)
     readonly_fields = ['upload_time']
     creator = fields.ForeignKey(UserResource, 'creator', full=True)
-    place = fields.ForeignKey(PlaceResource, 'place', full=True)
+    place = fields.ForeignKey('places.api.PlaceResource', 'place', full=True)
     comments = fields.ToManyField('comments.api.BeatCommentResource', 'comments', full=True, null=True, blank=True)
 
     class Meta:
