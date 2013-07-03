@@ -55,8 +55,8 @@ class User(AbstractUser, BaseModel):
     def get_followers(self):
         return list(self.get_redis_set('followers'))
 
-    def get_beats(self):
-        return self.get_redis_list('beats')
+    def get_beats(self, **kwargs):
+        return self.get_redis_list('beats', **kwargs)
 
     def get_heartbeats(self):
         return list(self.get_redis_set('heartbeats'))
@@ -89,7 +89,6 @@ class User(AbstractUser, BaseModel):
 
     def add_heart(self, beat):
         self.add_redis_set('heartbeats', beat.id)
-        self.distribute_feed(beat.id, 1)
 
     def del_heart(self, beat):
         self.remove_redis_set.delay('heartbeats', beat.id)
@@ -102,7 +101,8 @@ class User(AbstractUser, BaseModel):
 
     @task()
     def add_feeds_from_user(self, user):
-        user_feeds = user.get_feeds(start=0, end=5)
+        user_beats = user.get_hearts(0, 5)
+        user_feeds = ['%d:0:%s' % (user.id, beatid) for beatid in user_beats]
         key = self.get_redis_key('feeds')
         pipe = self.__class__.redis_server.pipeline()
         for feed in user_feeds:
