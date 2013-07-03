@@ -35,7 +35,6 @@ class Beat(BaseModel):
     def add_heart(self, user):
         self.hearts.add(user)
         self.add_redis_set('hearts', user.id)
-        user.distribute_feed(self.id, 1)
 
     def get_hearts(self):
         return list(self.get_redis_set('hearts'))
