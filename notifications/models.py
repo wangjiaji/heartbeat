@@ -2,6 +2,8 @@ from django.db import models
 from accounts.models import User
 
 class Notification(models.Model):
+    class Meta:
+        ordering = ['-id']
         
     note_type_choices = (
         (0, 'friend'),
