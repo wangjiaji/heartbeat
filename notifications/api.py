@@ -13,7 +13,7 @@ class NotificationResource(ModelResource):
     sender = fields.ForeignKey(UserResource, 'sender', full=True)
 
     class Meta:
-        queryset = Notification.objects.all()
+        queryset = Notification.objects.order_by('-id')
         allowed_methods = ['get', 'patch', 'delete']
         ordering = ['-id']
 
