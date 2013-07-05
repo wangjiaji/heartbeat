@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import User
 
 class Notification(models.Model):
+        
     note_type_choices = (
         (0, 'friend'),
         (1, 'comment'),
