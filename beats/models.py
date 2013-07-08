@@ -5,6 +5,9 @@ from heartbeat.models import BaseModel
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from heartbeat.tasks import redis_push_list, redis_del_list, redis_del_set
+import re
+
+reg_tags = re.compile(r'(?<=#)\w+\b', re.U)
 
 class Beat(BaseModel):
     creator = models.ForeignKey(User, related_name='beats') # User who created this beat
@@ -44,8 +47,7 @@ class Beat(BaseModel):
         self.remove_redis_set('hearts', user.id)
 
     def update_tags(self):
-        from re import findall
-        tags = set(findall(r'(?<=#)\w+\b', self.description))
+        tags = set(reg_tags.findall(self.description))
         keys = ['Beat:tag:%s' % tag for tag in tags]
         self.distribute_redis_value.delay(keys, self.id)
 
