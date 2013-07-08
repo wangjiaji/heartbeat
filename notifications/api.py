@@ -16,6 +16,7 @@ class NotificationResource(ModelResource):
         queryset = Notification.objects.order_by('-id')
         allowed_methods = ['get', 'patch', 'delete']
         ordering = ['-id']
+        authentication = NotificationAuthentication()
 
     def get_object_list(self, request):
         return super(NotificationResource, self).get_object_list(request).filter(recipient=request.user, is_read=False)
