@@ -66,9 +66,12 @@ class User(AbstractUser, BaseModel):
 
     def follow(self, user):
         self.followed_users.add(user)
-        self.add_redis_set('followed_users', user.id)
+        self.add_redis_set.delay('followed_users', user.id)
         self.add_feeds_from_user.delay(user)
-        user.add_redis_set('followers', self.id)
+        user.add_redis_set.delay('followers', self.id)
+        if user.notify_new_friend:
+            note = Notification(sender=self, recipient=user, note_type=1, subject_id=self.id)
+            note.save()
 
     def unfollow(self, user):
         self.followed_users.remove(user)

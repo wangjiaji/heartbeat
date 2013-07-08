@@ -38,6 +38,9 @@ class Beat(BaseModel):
     def add_heart(self, user):
         self.hearts.add(user)
         self.add_redis_set('hearts', user.id)
+        if self.creator.notify_heart:
+            note = Notification(sender=user, recipient=self.creator, note_type=2, subject_id=self.id)
+            note.save()
 
     def get_hearts(self):
         return list(self.get_redis_set('hearts'))
