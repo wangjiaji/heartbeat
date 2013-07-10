@@ -50,7 +50,7 @@ class Beat(BaseModel):
         self.remove_redis_set('hearts', user.id)
 
     def update_tags(self):
-        tags = set(reg_tags.findall(self.description))
+        tags = set(reg_tags.findall(unicode(self.description)))
         keys = ['Beat:tag:%s' % tag for tag in tags]
         self.distribute_redis_value.delay(keys, self.id)
 
