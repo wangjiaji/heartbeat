@@ -50,6 +50,7 @@ def add_heart(request, beatid):
         request.user.add_heart(beat)
     else:
         beat.del_heart(request.user)
+        request.user.del_heart(beat)
     return HttpResponseAccepted()
 
 @require_GET
@@ -74,5 +75,5 @@ def flag_beat(request, beatid):
 def search_beat_by_keyword(request, keyword):
     start = request.GET.get('start', 0)
     end = request.GET.get('end', -1)
-    results = Beat.get_global_list('tag:' + unicode(keyword), start, end)
+    results = Beat.get_global_list('tag:' + keyword, start, end)
     return HttpResponseOK(results)
