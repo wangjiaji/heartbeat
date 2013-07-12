@@ -16,6 +16,7 @@ class Notification(models.Model):
     subject_id = models.PositiveIntegerField()
     content = models.CharField(max_length=20, null=True, blank=True)
     is_read = models.BooleanField(default=False)
+    time_stamp = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __unicode__(self):
         return "note %d" % self.id
