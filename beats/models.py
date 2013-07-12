@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import User
 from places.models import Place
 from heartbeat.models import BaseModel
+from notifications.models import Notification
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from heartbeat.tasks import redis_push_list, redis_del_list, redis_del_set

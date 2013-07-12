@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from celery.contrib.methods import task
 from heartbeat.models import BaseModel
+from notifications.models import Notification
 
 class User(AbstractUser, BaseModel):
     _GENER_CHOICES = (
@@ -70,7 +71,7 @@ class User(AbstractUser, BaseModel):
         self.add_feeds_from_user.delay(user)
         user.add_redis_set.delay('followers', self.id)
         if user.notify_new_friend:
-            note = Notification(sender=self, recipient=user, note_type=1, subject_id=self.id)
+            note = Notification(sender=self, recipient=user, note_type=0, subject_id=self.id)
             note.save()
 
     def unfollow(self, user):

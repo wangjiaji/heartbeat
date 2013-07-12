@@ -1,5 +1,4 @@
 from django.db import models
-from accounts.models import User
 
 class Notification(models.Model):
     class Meta:
@@ -11,7 +10,7 @@ class Notification(models.Model):
         (2, 'heart')
     )
 
-    sender = models.ForeignKey(User, related_name='+')
+    sender = models.ForeignKey('accounts.User', related_name='+')
     note_type = models.SmallIntegerField()
     recipient = models.ForeignKey(User, related_name='notifications')
     subject_id = models.PositiveIntegerField()
