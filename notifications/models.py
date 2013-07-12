@@ -12,7 +12,7 @@ class Notification(models.Model):
 
     sender = models.ForeignKey('accounts.User', related_name='+')
     note_type = models.SmallIntegerField()
-    recipient = models.ForeignKey(User, related_name='notifications')
+    recipient = models.ForeignKey('accounts.User', related_name='notifications')
     subject_id = models.PositiveIntegerField()
     content = models.CharField(max_length=20, null=True, blank=True)
     is_read = models.BooleanField(default=False)
