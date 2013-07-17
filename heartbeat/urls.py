@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from tastypie.api import Api
 from accounts.api import UserResource
 from beats.api import BeatResource
@@ -20,7 +21,7 @@ v1_api.register(NotificationResource())
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'heartbeat.views.home', name='home'),
+    url(r'^$', TemplateView.as_view(template_name='index.html', name='home'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^beats/', include('beats.urls')),
     url(r'^api/', include(v1_api.urls)),

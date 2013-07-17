@@ -1,15 +1,15 @@
-from forms import SignupForm, LoginForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import password_reset
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from heartbeat.http import HttpResponseCreated, HttpResponseOK, HttpResponseForbidden, HttpResponseBadRequest, HttpResponseAccepted
 from heartbeat.api import get_api_resource
-from django.shortcuts import get_object_or_404
-from models import User
-from api import UserResource
+from .models import User
+from .api import UserResource
+from .forms import SignupForm, LoginForm
 
 @require_POST
 def register(request):
@@ -63,13 +63,12 @@ def add_friend(request, follow_id):
     
     followed = get_object_or_404(User, pk=fid)
 
-    if request.user.is_following(followed):
-        return HttpResponseForbidden('Already following')
-
-    if request.POST.get('action', 'add') != 'remove':
-        request.user.follow(followed)
-    else:
+    if request.POST.get('action', 'add') = 'remove':
         request.user.unfollow(followed)
+    elif request.user.is_following(followed):
+        return HttpResponseForbidden('Already following')
+    else:
+        request.user.follow(followed)
     return HttpResponseAccepted()
 
 @require_POST
