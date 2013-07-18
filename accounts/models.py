@@ -123,7 +123,6 @@ class User(AbstractUser, BaseModel):
             if uid == user.id:
                 pipe.lrem(key, feed)
         pipe.execute()
-
         
     def send_notification(self, recepient, title, text):
         pass
