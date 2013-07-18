@@ -67,7 +67,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = 'https://hbbeatimages.s3.amazonaws.com/static/'
+STATIC_URL = 'http://hbbeatimages.s3.amazonaws.com/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
