@@ -63,7 +63,7 @@ def add_friend(request, follow_id):
     
     followed = get_object_or_404(User, pk=fid)
 
-    if request.POST.get('action', 'add') = 'remove':
+    if request.POST.get('action', 'add') == 'remove':
         request.user.unfollow(followed)
     elif request.user.is_following(followed):
         return HttpResponseForbidden('Already following')
